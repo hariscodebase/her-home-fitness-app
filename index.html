@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171717">
+<title>Her Stronger Self</title>
+<style>
+:root{
+  --bg:#f6f5f2; --card:#fff; --ink:#171717; --muted:#6f6c66;
+  --line:#e7e4de; --accent:#171717; --soft:#efede8; --good:#dff2e5;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,a{font:inherit}
+a{color:inherit}
+.container{max-width:960px;margin:auto;padding:24px 18px 56px}
+.hero{padding:24px 0 18px;display:flex;justify-content:space-between;gap:20px;align-items:flex-end}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--muted);font-weight:700}
+h1{font-size:clamp(34px,7vw,58px);line-height:.98;margin:8px 0 12px;letter-spacing:-.045em}
+.hero p{margin:0;color:var(--muted);max-width:600px;line-height:1.55}
+.pill{background:var(--ink);color:white;padding:10px 14px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 26px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.stat b{display:block;font-size:25px}.stat span{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:8px;position:sticky;top:0;background:var(--bg);z-index:5}
+.tab{border:1px solid var(--line);background:var(--card);padding:10px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.tab.active{background:var(--ink);color:white;border-color:var(--ink)}
+.section{margin-top:22px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:12px}
+h2{font-size:24px;margin:0;letter-spacing:-.025em}
+.sub{font-size:13px;color:var(--muted)}
+.day{display:none}.day.active{display:block}
+.workout-header{background:var(--ink);color:white;border-radius:22px;padding:20px;margin-bottom:12px}
+.workout-header h3{margin:0 0 6px;font-size:24px}.workout-header p{margin:0;color:#d2d0cb;line-height:1.45}
+.exercise{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:10px 0;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.exercise h4{margin:0 0 5px;font-size:17px}.meta{color:var(--muted);font-size:13px}
+.exercise-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.watch,.done{border:0;border-radius:11px;padding:9px 11px;text-decoration:none;font-weight:700;font-size:12px;cursor:pointer}
+.watch{background:var(--soft)}.done{background:var(--ink);color:white}
+.exercise.complete{opacity:.62}.exercise.complete h4{text-decoration:line-through}
+.notes{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:12px;color:var(--muted);line-height:1.55;font-size:13px}
+.timer{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:14px}
+.time{font-size:30px;font-variant-numeric:tabular-nums;font-weight:800;letter-spacing:-.03em}
+.timer button{border:0;background:var(--ink);color:white;border-radius:11px;padding:9px 13px;font-weight:700;cursor:pointer}
+.progress-wrap{background:var(--soft);border-radius:999px;height:9px;overflow:hidden;margin:10px 0 5px}
+.progress{height:100%;width:0;background:var(--ink);transition:.2s}
+.reset{border:1px solid var(--line);background:transparent;border-radius:10px;padding:8px 11px;cursor:pointer}
+.footer{margin-top:32px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6}
+@media(max-width:650px){
+ .hero{display:block}.pill{display:inline-block;margin-top:14px}
+ .stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:span 2}
+ .exercise{grid-template-columns:1fr}.exercise-actions{justify-content:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">12-week home plan</div>
+      <h1>Her Stronger Self.</h1>
+      <p>A simple 30–40 minute plan built around strength, walking and consistency. No gym required.</p>
+    </div>
+    <div class="pill">72 kg → first target 68 kg</div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b>4</b><span>strength / workout days</span></div>
+    <div class="stat"><b>7–10k</b><span>daily steps over time</span></div>
+    <div class="stat"><b>0.25–0.5 kg</b><span>reasonable weekly pace</span></div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-day="mon">Mon · Lower</button>
+    <button class="tab" data-day="tue">Tue · Upper</button>
+    <button class="tab" data-day="thu">Thu · Full body</button>
+    <button class="tab" data-day="fri">Fri · Cardio</button>
+    <button class="tab" data-day="sat">Sat · Optional</button>
+  </div>
+
+  <main>
+    <section class="day active" id="mon">
+      <div class="workout-header"><h3>Lower body + core</h3><p>30–40 min · 3 sets each unless noted · Rest 45–75 sec</p></div>
+      <div id="mon-list"></div>
+    </section>
+    <section class="day" id="tue">
+      <div class="workout-header"><h3>Upper body + cardio</h3><p>25–35 min · controlled reps · finish with a brisk walk</p></div>
+      <div id="tue-list"></div>
+    </section>
+    <section class="day" id="thu">
+      <div class="workout-header"><h3>Full body</h3><p>30–40 min · focus on good form rather than speed</p></div>
+      <div id="thu-list"></div>
+    </section>
+    <section class="day" id="fri">
+      <div class="workout-header"><h3>Cardio day</h3><p>30–40 min · brisk walking is the main goal</p></div>
+      <div class="exercise"><div><h4>Brisk walk</h4><div class="meta">30–40 minutes · conversational but purposeful pace</div></div><div class="exercise-actions"><a class="watch" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=brisk+walking+for+weight+loss+beginner">YouTube ideas</a></div></div>
+      <div class="notes">Walking does not need a special video. The goal is simply to accumulate consistent movement. If she prefers a home workout, use the YouTube search above for low-impact walking workouts.</div>
+    </section>
+    <section class="day" id="sat">
+      <div class="workout-header"><h3>Optional movement</h3><p>Keep it enjoyable: family walk, cycling, swimming or dancing.</p></div>
+      <div class="notes">This day is deliberately flexible. Recovery and consistency matter more than adding another hard workout.</div>
+    </section>
+  </main>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Progress</h2><div class="sub">Your checkmarks are saved on this device.</div></div><button class="reset" id="reset">Reset week</button></div>
+    <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+    <div class="sub" id="progressText">0 exercises completed</div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Quick rest timer</h2><div class="sub">Use between sets.</div></div></div>
+    <div class="timer"><div class="time" id="time">01:00</div><button id="timerBtn">Start</button></div>
+  </section>
+
+  <div class="footer">
+    <b>Important:</b> this is a general fitness plan, not medical care. If she has pelvic-floor symptoms, abdominal doming/coning, significant pain, dizziness or unusual bleeding, stop and seek appropriate professional advice. Start easy and progress gradually.
+  </div>
+</div>
+
+<script>
+const workouts = {
+ mon: [
+  ["Bodyweight squat","3 × 12","https://www.youtube.com/results?search_query=NASM+bodyweight+squat+proper+form"],
+  ["Glute bridge","3 × 15","https://www.youtube.com/results?search_query=NASM+glute+bridge+proper+form"],
+  ["Reverse lunge","3 × 8 / leg","https://www.youtube.com/results?search_query=NASM+reverse+lunge+proper+form"],
+  ["Romanian deadlift","3 × 12","https://www.youtube.com/watch?v=V8Hdl1FiNt4"],
+  ["Calf raise","3 × 15","https://www.youtube.com/results?search_query=calf+raise+proper+form+beginner"],
+  ["Dead bug","3 × 8 / side","https://www.youtube.com/watch?v=bxn9FBrt4-A"]
+ ],
+ tue: [
+  ["Incline push-up","3 × 8–12","https://www.youtube.com/watch?v=0JUrOH--Kdk"],
+  ["Backpack row","3 × 12","https://www.youtube.com/results?search_query=backpack+row+proper+form"],
+  ["Water-bottle shoulder press","3 × 12","https://www.youtube.com/results?search_query=water+bottle+shoulder+press+proper+form"],
+  ["Biceps curl","2 × 12","https://www.youtube.com/results?search_query=NASM+biceps+curl+proper+form"],
+  ["Triceps extension","2 × 12","https://www.youtube.com/results?search_query=NASM+triceps+extension+proper+form"]
+ ],
+ thu: [
+  ["Bodyweight squat","3 × 12","https://www.youtube.com/results?search_query=NASM+bodyweight+squat+proper+form"],
+  ["Step-up","3 × 10 / leg","https://www.youtube.com/results?search_query=step+up+exercise+proper+form+beginner"],
+  ["Romanian deadlift","3 × 12","https://www.youtube.com/watch?v=V8Hdl1FiNt4"],
+  ["Backpack row","3 × 12","https://www.youtube.com/results?search_query=backpack+row+proper+form"],
+  ["Incline push-up","3 × 8–12","https://www.youtube.com/watch?v=0JUrOH--Kdk"],
+  ["Glute bridge","3 × 15","https://www.youtube.com/results?search_query=NASM+glute+bridge+proper+form"],
+  ["Plank","2 × 20–30 sec","https://www.youtube.com/watch?v=mwlp75MS6Rg"]
+ ]
+};
+
+const storageKey = "her-stronger-self-checks";
+let checks = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+function renderDay(day){
+  const list = document.getElementById(day+"-list");
+  if(!list) return;
+  list.innerHTML = workouts[day].map((x,i)=>{
+    const id = day+"-"+i, done = !!checks[id];
+    return `<div class="exercise ${done?"complete":""}" data-id="${id}">
+      <div><h4>${x[0]}</h4><div class="meta">${x[1]}</div></div>
+      <div class="exercise-actions">
+        <a class="watch" target="_blank" rel="noopener" href="${x[2]}">▶ Watch</a>
+        <button class="done" onclick="toggleDone('${id}')">${done?"✓ Done":"Done"}</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+function renderAll(){["mon","tue","thu"].forEach(renderDay); updateProgress();}
+function toggleDone(id){checks[id]=!checks[id];localStorage.setItem(storageKey,JSON.stringify(checks));renderAll();}
+function updateProgress(){
+ const total=Object.values(workouts).reduce((a,b)=>a+b.length,0);
+ const done=Object.values(checks).filter(Boolean).length;
+ document.getElementById("progress").style.width=(done/total*100)+"%";
+ document.getElementById("progressText").textContent=`${done} of ${total} exercises completed`;
+}
+document.querySelectorAll(".tab").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".day").forEach(d=>d.classList.remove("active"));
+  btn.classList.add("active"); document.getElementById(btn.dataset.day).classList.add("active");
+ });
+});
+document.getElementById("reset").addEventListener("click",()=>{
+ if(confirm("Reset all workout checkmarks on this device?")){checks={};localStorage.removeItem(storageKey);renderAll();}
+});
+
+let seconds=60, timer=null;
+function showTime(){document.getElementById("time").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");}
+document.getElementById("timerBtn").addEventListener("click",()=>{
+ const b=document.getElementById("timerBtn");
+ if(timer){clearInterval(timer);timer=null;b.textContent="Start";return;}
+ b.textContent="Pause";
+ timer=setInterval(()=>{
+  seconds--;showTime();
+  if(seconds<=0){clearInterval(timer);timer=null;seconds=60;showTime();b.textContent="Start";alert("Rest finished — next set!");}
+ },1000);
+});
+renderAll();showTime();
+</script>
+</body>
+</html>
